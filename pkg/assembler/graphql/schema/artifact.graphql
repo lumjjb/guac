@@ -61,4 +61,5 @@ extend type Query {
 extend type Mutation {
   "Ingests a new artifact and returns it."
   ingestArtifact(artifact: ArtifactInputSpec): Artifact!
+  ingestArtifacts(artifacts: [ArtifactInputSpec!]!): [Artifact!]!
 }

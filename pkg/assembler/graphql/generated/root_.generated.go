@@ -176,6 +176,7 @@ type ComplexityRoot struct {
 	Mutation struct {
 		CertifyScorecard      func(childComplexity int, source model.SourceInputSpec, scorecard model.ScorecardInputSpec) int
 		IngestArtifact        func(childComplexity int, artifact *model.ArtifactInputSpec) int
+		IngestArtifacts       func(childComplexity int, artifacts []*model.ArtifactInputSpec) int
 		IngestBuilder         func(childComplexity int, builder *model.BuilderInputSpec) int
 		IngestCertifyBad      func(childComplexity int, subject model.PackageSourceOrArtifactInput, pkgMatchType *model.MatchFlags, certifyBad model.CertifyBadInputSpec) int
 		IngestCertifyGood     func(childComplexity int, subject model.PackageSourceOrArtifactInput, pkgMatchType *model.MatchFlags, certifyGood model.CertifyGoodInputSpec) int
@@ -192,6 +193,7 @@ type ComplexityRoot struct {
 		IngestOccurrences     func(childComplexity int, subject model.PackagesOrSourcesInput, artifact []*model.ArtifactInputSpec, occurrence []*model.IsOccurrenceInputSpec) int
 		IngestOsv             func(childComplexity int, osv *model.OSVInputSpec) int
 		IngestPackage         func(childComplexity int, pkg model.PkgInputSpec) int
+		IngestPackages        func(childComplexity int, pkgs []*model.PkgInputSpec) int
 		IngestPkgEqual        func(childComplexity int, pkg model.PkgInputSpec, otherPackage model.PkgInputSpec, pkgEqual model.PkgEqualInputSpec) int
 		IngestSlsa            func(childComplexity int, subject model.ArtifactInputSpec, builtFrom []*model.ArtifactInputSpec, builtBy model.BuilderInputSpec, slsa model.SLSAInputSpec) int
 		IngestSource          func(childComplexity int, source model.SourceInputSpec) int
@@ -955,6 +957,18 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 
 		return e.complexity.Mutation.IngestArtifact(childComplexity, args["artifact"].(*model.ArtifactInputSpec)), true
 
+	case "Mutation.ingestArtifacts":
+		if e.complexity.Mutation.IngestArtifacts == nil {
+			break
+		}
+
+		args, err := ec.field_Mutation_ingestArtifacts_args(context.TODO(), rawArgs)
+		if err != nil {
+			return 0, false
+		}
+
+		return e.complexity.Mutation.IngestArtifacts(childComplexity, args["artifacts"].([]*model.ArtifactInputSpec)), true
+
 	case "Mutation.ingestBuilder":
 		if e.complexity.Mutation.IngestBuilder == nil {
 			break
@@ -1146,6 +1160,18 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 		}
 
 		return e.complexity.Mutation.IngestPackage(childComplexity, args["pkg"].(model.PkgInputSpec)), true
+
+	case "Mutation.ingestPackages":
+		if e.complexity.Mutation.IngestPackages == nil {
+			break
+		}
+
+		args, err := ec.field_Mutation_ingestPackages_args(context.TODO(), rawArgs)
+		if err != nil {
+			return 0, false
+		}
+
+		return e.complexity.Mutation.IngestPackages(childComplexity, args["pkgs"].([]*model.PkgInputSpec)), true
 
 	case "Mutation.ingestPkgEqual":
 		if e.complexity.Mutation.IngestPkgEqual == nil {
@@ -2144,6 +2170,7 @@ extend type Query {
 extend type Mutation {
   "Ingests a new artifact and returns it."
   ingestArtifact(artifact: ArtifactInputSpec): Artifact!
+  ingestArtifacts(artifacts: [ArtifactInputSpec!]!): [Artifact!]!
 }
 `, BuiltIn: false},
 	{Name: "../schema/builder.graphql", Input: `#
@@ -3818,6 +3845,7 @@ extend type Query {
 extend type Mutation {
   "Ingests a new package and returns the corresponding package trie path."
   ingestPackage(pkg: PkgInputSpec!): Package!
+  ingestPackages(pkgs: [PkgInputSpec!]!): [Package!]!
 }
 `, BuiltIn: false},
 	{Name: "../schema/path.graphql", Input: `#

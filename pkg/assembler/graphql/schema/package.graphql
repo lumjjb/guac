@@ -183,4 +183,5 @@ extend type Query {
 extend type Mutation {
   "Ingests a new package and returns the corresponding package trie path."
   ingestPackage(pkg: PkgInputSpec!): Package!
+  ingestPackages(pkgs: [PkgInputSpec!]!): [Package!]!
 }

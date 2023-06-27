@@ -23,6 +23,12 @@ mutation IngestArtifact($artifact: ArtifactInputSpec!) {
   }
 }
 
+mutation IngestArtifacts($artifacts: [ArtifactInputSpec!]!) {
+  ingestArtifacts(artifacts: $artifacts) {
+    ...AllArtifactTree
+  }
+}
+
 # Ingest Materials (artifacts) used by hasSLSA
 
 mutation IngestMaterials($materials: [ArtifactInputSpec!]!) {

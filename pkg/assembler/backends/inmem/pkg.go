@@ -274,6 +274,10 @@ func (p *pkgVersionNode) getCertifyGoodLinks() []uint32   { return p.goodLinks }
 func (p *pkgVersionNode) setPkgEquals(id uint32) { p.pkgEquals = append(p.pkgEquals, id) }
 
 // Ingest Package
+func (c *demoClient) IngestPackages(ctx context.Context, pkgs []*model.PkgInputSpec) ([]*model.Package, error) {
+	panic("not implemented")
+}
+
 func (c *demoClient) IngestPackage(ctx context.Context, input model.PkgInputSpec) (*model.Package, error) {
 	c.m.RLock()
 	namespacesStruct, hasNamespace := c.packages[input.Type]

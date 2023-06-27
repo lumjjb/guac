@@ -4359,6 +4359,91 @@ func (v *IngestArtifactResponse) GetIngestArtifact() IngestArtifactIngestArtifac
 	return v.IngestArtifact
 }
 
+// IngestArtifactsIngestArtifactsArtifact includes the requested fields of the GraphQL type Artifact.
+// The GraphQL type's documentation follows.
+//
+// Artifact represents an artifact identified by a checksum hash.
+//
+// The checksum is split into the digest value and the algorithm used to generate
+// it. Both fields are mandatory and canonicalized to be lowercase.
+//
+// If having a checksum Go object, algorithm can be
+// strings.ToLower(string(checksum.Algorithm)) and digest can be checksum.Value.
+type IngestArtifactsIngestArtifactsArtifact struct {
+	AllArtifactTree `json:"-"`
+}
+
+// GetId returns IngestArtifactsIngestArtifactsArtifact.Id, and is useful for accessing the field via an interface.
+func (v *IngestArtifactsIngestArtifactsArtifact) GetId() string { return v.AllArtifactTree.Id }
+
+// GetAlgorithm returns IngestArtifactsIngestArtifactsArtifact.Algorithm, and is useful for accessing the field via an interface.
+func (v *IngestArtifactsIngestArtifactsArtifact) GetAlgorithm() string {
+	return v.AllArtifactTree.Algorithm
+}
+
+// GetDigest returns IngestArtifactsIngestArtifactsArtifact.Digest, and is useful for accessing the field via an interface.
+func (v *IngestArtifactsIngestArtifactsArtifact) GetDigest() string { return v.AllArtifactTree.Digest }
+
+func (v *IngestArtifactsIngestArtifactsArtifact) UnmarshalJSON(b []byte) error {
+
+	if string(b) == "null" {
+		return nil
+	}
+
+	var firstPass struct {
+		*IngestArtifactsIngestArtifactsArtifact
+		graphql.NoUnmarshalJSON
+	}
+	firstPass.IngestArtifactsIngestArtifactsArtifact = v
+
+	err := json.Unmarshal(b, &firstPass)
+	if err != nil {
+		return err
+	}
+
+	err = json.Unmarshal(
+		b, &v.AllArtifactTree)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+type __premarshalIngestArtifactsIngestArtifactsArtifact struct {
+	Id string `json:"id"`
+
+	Algorithm string `json:"algorithm"`
+
+	Digest string `json:"digest"`
+}
+
+func (v *IngestArtifactsIngestArtifactsArtifact) MarshalJSON() ([]byte, error) {
+	premarshaled, err := v.__premarshalJSON()
+	if err != nil {
+		return nil, err
+	}
+	return json.Marshal(premarshaled)
+}
+
+func (v *IngestArtifactsIngestArtifactsArtifact) __premarshalJSON() (*__premarshalIngestArtifactsIngestArtifactsArtifact, error) {
+	var retval __premarshalIngestArtifactsIngestArtifactsArtifact
+
+	retval.Id = v.AllArtifactTree.Id
+	retval.Algorithm = v.AllArtifactTree.Algorithm
+	retval.Digest = v.AllArtifactTree.Digest
+	return &retval, nil
+}
+
+// IngestArtifactsResponse is returned by IngestArtifacts on success.
+type IngestArtifactsResponse struct {
+	IngestArtifacts []IngestArtifactsIngestArtifactsArtifact `json:"ingestArtifacts"`
+}
+
+// GetIngestArtifacts returns IngestArtifactsResponse.IngestArtifacts, and is useful for accessing the field via an interface.
+func (v *IngestArtifactsResponse) GetIngestArtifacts() []IngestArtifactsIngestArtifactsArtifact {
+	return v.IngestArtifacts
+}
+
 // IngestBuilderIngestBuilder includes the requested fields of the GraphQL type Builder.
 // The GraphQL type's documentation follows.
 //
@@ -4793,6 +4878,98 @@ type IngestPackageResponse struct {
 
 // GetIngestPackage returns IngestPackageResponse.IngestPackage, and is useful for accessing the field via an interface.
 func (v *IngestPackageResponse) GetIngestPackage() IngestPackageIngestPackage { return v.IngestPackage }
+
+// IngestPackagesIngestPackagesPackage includes the requested fields of the GraphQL type Package.
+// The GraphQL type's documentation follows.
+//
+// Package represents the root of the package trie/tree.
+//
+// We map package information to a trie, closely matching the pURL specification
+// (https://github.com/package-url/purl-spec/blob/0dd92f26f8bb11956ffdf5e8acfcee71e8560407/README.rst),
+// but deviating from it where GUAC heuristics allow for better representation of
+// package information. Each path in the trie fully represents a package; we split
+// the trie based on the pURL components.
+//
+// This node matches a pkg:<type> partial pURL. The type field matches the
+// pURL types but we might also use "guac" for the cases where the pURL
+// representation is not complete or when we have custom rules.
+//
+// Since this node is at the root of the package trie, it is named Package, not
+// PackageType.
+type IngestPackagesIngestPackagesPackage struct {
+	AllPkgTree `json:"-"`
+}
+
+// GetId returns IngestPackagesIngestPackagesPackage.Id, and is useful for accessing the field via an interface.
+func (v *IngestPackagesIngestPackagesPackage) GetId() string { return v.AllPkgTree.Id }
+
+// GetType returns IngestPackagesIngestPackagesPackage.Type, and is useful for accessing the field via an interface.
+func (v *IngestPackagesIngestPackagesPackage) GetType() string { return v.AllPkgTree.Type }
+
+// GetNamespaces returns IngestPackagesIngestPackagesPackage.Namespaces, and is useful for accessing the field via an interface.
+func (v *IngestPackagesIngestPackagesPackage) GetNamespaces() []AllPkgTreeNamespacesPackageNamespace {
+	return v.AllPkgTree.Namespaces
+}
+
+func (v *IngestPackagesIngestPackagesPackage) UnmarshalJSON(b []byte) error {
+
+	if string(b) == "null" {
+		return nil
+	}
+
+	var firstPass struct {
+		*IngestPackagesIngestPackagesPackage
+		graphql.NoUnmarshalJSON
+	}
+	firstPass.IngestPackagesIngestPackagesPackage = v
+
+	err := json.Unmarshal(b, &firstPass)
+	if err != nil {
+		return err
+	}
+
+	err = json.Unmarshal(
+		b, &v.AllPkgTree)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+type __premarshalIngestPackagesIngestPackagesPackage struct {
+	Id string `json:"id"`
+
+	Type string `json:"type"`
+
+	Namespaces []AllPkgTreeNamespacesPackageNamespace `json:"namespaces"`
+}
+
+func (v *IngestPackagesIngestPackagesPackage) MarshalJSON() ([]byte, error) {
+	premarshaled, err := v.__premarshalJSON()
+	if err != nil {
+		return nil, err
+	}
+	return json.Marshal(premarshaled)
+}
+
+func (v *IngestPackagesIngestPackagesPackage) __premarshalJSON() (*__premarshalIngestPackagesIngestPackagesPackage, error) {
+	var retval __premarshalIngestPackagesIngestPackagesPackage
+
+	retval.Id = v.AllPkgTree.Id
+	retval.Type = v.AllPkgTree.Type
+	retval.Namespaces = v.AllPkgTree.Namespaces
+	return &retval, nil
+}
+
+// IngestPackagesResponse is returned by IngestPackages on success.
+type IngestPackagesResponse struct {
+	IngestPackages []IngestPackagesIngestPackagesPackage `json:"ingestPackages"`
+}
+
+// GetIngestPackages returns IngestPackagesResponse.IngestPackages, and is useful for accessing the field via an interface.
+func (v *IngestPackagesResponse) GetIngestPackages() []IngestPackagesIngestPackagesPackage {
+	return v.IngestPackages
+}
 
 // IngestSourceIngestSource includes the requested fields of the GraphQL type Source.
 // The GraphQL type's documentation follows.
@@ -17886,6 +18063,14 @@ type __IngestArtifactInput struct {
 // GetArtifact returns __IngestArtifactInput.Artifact, and is useful for accessing the field via an interface.
 func (v *__IngestArtifactInput) GetArtifact() ArtifactInputSpec { return v.Artifact }
 
+// __IngestArtifactsInput is used internally by genqlient
+type __IngestArtifactsInput struct {
+	Artifacts []ArtifactInputSpec `json:"artifacts"`
+}
+
+// GetArtifacts returns __IngestArtifactsInput.Artifacts, and is useful for accessing the field via an interface.
+func (v *__IngestArtifactsInput) GetArtifacts() []ArtifactInputSpec { return v.Artifacts }
+
 // __IngestBuilderInput is used internally by genqlient
 type __IngestBuilderInput struct {
 	Builder BuilderInputSpec `json:"builder"`
@@ -17933,6 +18118,14 @@ type __IngestPackageInput struct {
 
 // GetPkg returns __IngestPackageInput.Pkg, and is useful for accessing the field via an interface.
 func (v *__IngestPackageInput) GetPkg() PkgInputSpec { return v.Pkg }
+
+// __IngestPackagesInput is used internally by genqlient
+type __IngestPackagesInput struct {
+	Pkg []PkgInputSpec `json:"pkg"`
+}
+
+// GetPkg returns __IngestPackagesInput.Pkg, and is useful for accessing the field via an interface.
+func (v *__IngestPackagesInput) GetPkg() []PkgInputSpec { return v.Pkg }
 
 // __IngestSourceInput is used internally by genqlient
 type __IngestSourceInput struct {
@@ -22861,6 +23054,46 @@ func IngestArtifact(
 	return &data, err
 }
 
+// The query or mutation executed by IngestArtifacts.
+const IngestArtifacts_Operation = `
+mutation IngestArtifacts ($artifacts: [ArtifactInputSpec!]!) {
+	ingestArtifacts(artifacts: $artifacts) {
+		... AllArtifactTree
+	}
+}
+fragment AllArtifactTree on Artifact {
+	id
+	algorithm
+	digest
+}
+`
+
+func IngestArtifacts(
+	ctx context.Context,
+	client graphql.Client,
+	artifacts []ArtifactInputSpec,
+) (*IngestArtifactsResponse, error) {
+	req := &graphql.Request{
+		OpName: "IngestArtifacts",
+		Query:  IngestArtifacts_Operation,
+		Variables: &__IngestArtifactsInput{
+			Artifacts: artifacts,
+		},
+	}
+	var err error
+
+	var data IngestArtifactsResponse
+	resp := &graphql.Response{Data: &data}
+
+	err = client.MakeRequest(
+		ctx,
+		req,
+		resp,
+	)
+
+	return &data, err
+}
+
 // The query or mutation executed by IngestBuilder.
 const IngestBuilder_Operation = `
 mutation IngestBuilder ($builder: BuilderInputSpec!) {
@@ -23099,6 +23332,62 @@ func IngestPackage(
 	var err error
 
 	var data IngestPackageResponse
+	resp := &graphql.Response{Data: &data}
+
+	err = client.MakeRequest(
+		ctx,
+		req,
+		resp,
+	)
+
+	return &data, err
+}
+
+// The query or mutation executed by IngestPackages.
+const IngestPackages_Operation = `
+mutation IngestPackages ($pkg: [PkgInputSpec!]!) {
+	ingestPackages(pkgs: $pkg) {
+		... AllPkgTree
+	}
+}
+fragment AllPkgTree on Package {
+	id
+	type
+	namespaces {
+		id
+		namespace
+		names {
+			id
+			name
+			versions {
+				id
+				version
+				qualifiers {
+					key
+					value
+				}
+				subpath
+			}
+		}
+	}
+}
+`
+
+func IngestPackages(
+	ctx context.Context,
+	client graphql.Client,
+	pkg []PkgInputSpec,
+) (*IngestPackagesResponse, error) {
+	req := &graphql.Request{
+		OpName: "IngestPackages",
+		Query:  IngestPackages_Operation,
+		Variables: &__IngestPackagesInput{
+			Pkg: pkg,
+		},
+	}
+	var err error
+
+	var data IngestPackagesResponse
 	resp := &graphql.Response{Data: &data}
 
 	err = client.MakeRequest(

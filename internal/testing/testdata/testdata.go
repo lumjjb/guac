@@ -492,7 +492,7 @@ var (
 		{
 			Pkg:             topLevelPack,
 			DepPkg:          baselayoutPack,
-			DepPkgMatchFlag: model.MatchFlags{Pkg: model.PkgMatchTypeAllVersions},
+			DepPkgMatchFlag: model.MatchFlags{Pkg: model.PkgMatchTypeSpecificVersion},
 			IsDependency: &model.IsDependencyInputSpec{
 				DependencyType: model.DependencyTypeUnknown,
 				VersionRange:   "3.2.0-r22",
@@ -502,7 +502,7 @@ var (
 		{
 			Pkg:             topLevelPack,
 			DepPkg:          baselayoutdataPack,
-			DepPkgMatchFlag: model.MatchFlags{Pkg: model.PkgMatchTypeAllVersions},
+			DepPkgMatchFlag: model.MatchFlags{Pkg: model.PkgMatchTypeSpecificVersion},
 			IsDependency: &model.IsDependencyInputSpec{
 				DependencyType: model.DependencyTypeUnknown,
 				VersionRange:   "3.2.0-r22",
@@ -512,7 +512,7 @@ var (
 		{
 			Pkg:             topLevelPack,
 			DepPkg:          keysPack,
-			DepPkgMatchFlag: model.MatchFlags{Pkg: model.PkgMatchTypeAllVersions},
+			DepPkgMatchFlag: model.MatchFlags{Pkg: model.PkgMatchTypeSpecificVersion},
 			IsDependency: &model.IsDependencyInputSpec{
 				DependencyType: model.DependencyTypeUnknown,
 				VersionRange:   "2.4-r1",
@@ -562,7 +562,7 @@ var (
 		{
 			Pkg:             baselayoutPack,
 			DepPkg:          keysPack,
-			DepPkgMatchFlag: model.MatchFlags{Pkg: model.PkgMatchTypeAllVersions},
+			DepPkgMatchFlag: model.MatchFlags{Pkg: model.PkgMatchTypeSpecificVersion},
 			IsDependency: &model.IsDependencyInputSpec{
 				DependencyType: model.DependencyTypeUnknown,
 				VersionRange:   "2.4-r1",
@@ -655,7 +655,7 @@ var (
 		{
 			Pkg:             cdxTopLevelPack,
 			DepPkg:          cdxBasefilesPack,
-			DepPkgMatchFlag: model.MatchFlags{Pkg: model.PkgMatchTypeAllVersions},
+			DepPkgMatchFlag: model.MatchFlags{Pkg: model.PkgMatchTypeSpecificVersion},
 			IsDependency: &model.IsDependencyInputSpec{
 				DependencyType: model.DependencyTypeUnknown,
 				VersionRange:   "11.1+deb11u5",
@@ -665,7 +665,7 @@ var (
 		{
 			Pkg:             cdxTopLevelPack,
 			DepPkg:          cdxNetbasePack,
-			DepPkgMatchFlag: model.MatchFlags{Pkg: model.PkgMatchTypeAllVersions},
+			DepPkgMatchFlag: model.MatchFlags{Pkg: model.PkgMatchTypeSpecificVersion},
 			IsDependency: &model.IsDependencyInputSpec{
 				DependencyType: model.DependencyTypeUnknown,
 				VersionRange:   "6.3",
@@ -675,7 +675,7 @@ var (
 		{
 			Pkg:             cdxTopLevelPack,
 			DepPkg:          cdxTzdataPack,
-			DepPkgMatchFlag: model.MatchFlags{Pkg: model.PkgMatchTypeAllVersions},
+			DepPkgMatchFlag: model.MatchFlags{Pkg: model.PkgMatchTypeSpecificVersion},
 			IsDependency: &model.IsDependencyInputSpec{
 				DependencyType: model.DependencyTypeUnknown,
 				VersionRange:   "2021a-1+deb11u6",
@@ -711,7 +711,7 @@ var (
 		{
 			Pkg:             cdxTopQuarkusPack,
 			DepPkg:          cdxResteasyPack,
-			DepPkgMatchFlag: model.MatchFlags{Pkg: model.PkgMatchTypeAllVersions},
+			DepPkgMatchFlag: model.MatchFlags{Pkg: model.PkgMatchTypeSpecificVersion},
 			IsDependency: &model.IsDependencyInputSpec{
 				DependencyType: model.DependencyTypeUnknown,
 				VersionRange:   "2.13.4.Final",
@@ -721,7 +721,7 @@ var (
 		{
 			Pkg:             cdxTopQuarkusPack,
 			DepPkg:          cdxReactiveCommonPack,
-			DepPkgMatchFlag: model.MatchFlags{Pkg: model.PkgMatchTypeAllVersions},
+			DepPkgMatchFlag: model.MatchFlags{Pkg: model.PkgMatchTypeSpecificVersion},
 			IsDependency: &model.IsDependencyInputSpec{
 				DependencyType: model.DependencyTypeUnknown,
 				VersionRange:   "2.13.4.Final",
@@ -731,7 +731,7 @@ var (
 		{
 			Pkg:             cdxResteasyPack,
 			DepPkg:          cdxReactiveCommonPack,
-			DepPkgMatchFlag: model.MatchFlags{Pkg: model.PkgMatchTypeAllVersions},
+			DepPkgMatchFlag: model.MatchFlags{Pkg: model.PkgMatchTypeSpecificVersion},
 			IsDependency: &model.IsDependencyInputSpec{
 				DependencyType: model.DependencyTypeUnknown,
 				VersionRange:   "2.13.4.Final",
@@ -800,7 +800,7 @@ var (
 		{
 			Pkg:             cdxWebAppPackage,
 			DepPkg:          cdxBootstrapPackage,
-			DepPkgMatchFlag: model.MatchFlags{Pkg: model.PkgMatchTypeAllVersions},
+			DepPkgMatchFlag: model.MatchFlags{Pkg: model.PkgMatchTypeSpecificVersion},
 			IsDependency: &model.IsDependencyInputSpec{
 				DependencyType: model.DependencyTypeUnknown,
 				VersionRange:   "4.0.0-beta.2",
@@ -1994,7 +1994,7 @@ For the update to take effect, all services linked to the OpenSSL library must b
 			{
 				Pkg:             topLevelPack,
 				DepPkg:          baselayoutPack,
-				DepPkgMatchFlag: model.MatchFlags{Pkg: model.PkgMatchTypeAllVersions},
+				DepPkgMatchFlag: model.MatchFlags{Pkg: model.PkgMatchTypeSpecificVersion},
 				IsDependency: &generated.IsDependencyInputSpec{
 					DependencyType: generated.DependencyTypeUnknown,
 					VersionRange:   "3.2.0-r22",
@@ -2004,7 +2004,7 @@ For the update to take effect, all services linked to the OpenSSL library must b
 			{
 				Pkg:             topLevelPack,
 				DepPkg:          baselayoutdataPack,
-				DepPkgMatchFlag: model.MatchFlags{Pkg: model.PkgMatchTypeAllVersions},
+				DepPkgMatchFlag: model.MatchFlags{Pkg: model.PkgMatchTypeSpecificVersion},
 				IsDependency: &generated.IsDependencyInputSpec{
 					DependencyType: generated.DependencyTypeUnknown,
 					VersionRange:   "3.2.0-r22",

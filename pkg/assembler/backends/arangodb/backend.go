@@ -79,9 +79,10 @@ const (
 
 	// isDependency collections
 
-	isDependencyDepPkgEdgesStr     string = "isDependencyDepPkgEdges"
-	isDependencySubjectPkgEdgesStr string = "isDependencySubjectPkgEdges"
-	isDependenciesStr              string = "isDependencies"
+	isDependencyDepPkgVersionEdgesStr string = "isDependencyDepPkgVersionEdges"
+	isDependencyDepPkgNameEdgesStr    string = "isDependencyDepPkgNameEdges"
+	isDependencySubjectPkgEdgesStr    string = "isDependencySubjectPkgEdges"
+	isDependenciesStr                 string = "isDependencies"
 
 	//isOccurrences collections
 
@@ -243,15 +244,20 @@ func GetBackend(ctx context.Context, args backends.BackendArgs) (backends.Backen
 		srcHasName.To = []string{srcNamesStr}
 
 		// setup isDependency collections
-		var isDependencyDepPkgEdges driver.EdgeDefinition
-		isDependencyDepPkgEdges.Collection = isDependencyDepPkgEdgesStr
-		isDependencyDepPkgEdges.From = []string{isDependenciesStr}
-		isDependencyDepPkgEdges.To = []string{pkgNamesStr}
-
 		var isDependencySubjectPkgEdges driver.EdgeDefinition
 		isDependencySubjectPkgEdges.Collection = isDependencySubjectPkgEdgesStr
 		isDependencySubjectPkgEdges.From = []string{pkgVersionsStr}
 		isDependencySubjectPkgEdges.To = []string{isDependenciesStr}
+
+		var isDependencyDepPkgVersionEdges driver.EdgeDefinition
+		isDependencyDepPkgVersionEdges.Collection = isDependencyDepPkgVersionEdgesStr
+		isDependencyDepPkgVersionEdges.From = []string{isDependenciesStr}
+		isDependencyDepPkgVersionEdges.To = []string{pkgVersionsStr}
+
+		var isDependencyDepPkgNameEdges driver.EdgeDefinition
+		isDependencyDepPkgNameEdges.Collection = isDependencyDepPkgNameEdgesStr
+		isDependencyDepPkgNameEdges.From = []string{isDependenciesStr}
+		isDependencyDepPkgNameEdges.To = []string{pkgNamesStr}
 
 		// setup isOccurrence collections
 		var isOccurrenceArtEdges driver.EdgeDefinition
@@ -364,7 +370,7 @@ func GetBackend(ctx context.Context, args backends.BackendArgs) (backends.Backen
 		// A graph can contain additional vertex collections, defined in the set of orphan collections
 		var options driver.CreateGraphOptions
 		options.EdgeDefinitions = []driver.EdgeDefinition{pkgHasNamespace, pkgHasName,
-			pkgHasVersion, srcHasNamespace, srcHasName, isDependencyDepPkgEdges, isDependencySubjectPkgEdges,
+			pkgHasVersion, srcHasNamespace, srcHasName, isDependencyDepPkgVersionEdges, isDependencyDepPkgNameEdges, isDependencySubjectPkgEdges,
 			isOccurrenceArtEdges, isOccurrenceSubjectPkgEdges, isOccurrenceSubjectSrcEdges, hasSLSASubjectArtEdges,
 			hasSLSABuiltByEdges, hasSLSABuiltFromEdges, hashEqualArtEdges, hashEqualSubjectArtEdges, hasSBOMPkgEdges,
 			hasSBOMArtEdges, certifyVulnEdges, certifyScorecardSrcEdges, certifyBadPkgVersionEdges, certifyBadPkgNameEdges,
@@ -630,6 +636,14 @@ func (aqb *arangoQueryBuilder) filter(counterName string, fieldName string, cond
 	aqb.query.WriteString(" ")
 
 	aqb.query.WriteString(fmt.Sprintf("FILTER %s.%s %s %s", counterName, fieldName, condition, value))
+
+	return newArangoQueryFilter(aqb)
+}
+
+func (aqb *arangoQueryBuilder) filterLength(counterName string, fieldName string, condition string, value int) *arangoQueryFilter {
+	aqb.query.WriteString(" ")
+
+	aqb.query.WriteString(fmt.Sprintf("FILTER LENGTH(%s.%s) %s %d", counterName, fieldName, condition, value))
 
 	return newArangoQueryFilter(aqb)
 }
